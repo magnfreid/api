@@ -4,6 +4,8 @@
   --sw-background-for-text: rgba(43, 43, 43, 0.822);
   --sw-border: 1px solid rgba(255, 255, 255, 0.555);
   --sw-border-radius: 0.3em;
+  --sw-white-background: rgb(211, 211, 211);
+  --transition-elements: all 2s ease-in-out;
 }
 
 body {
@@ -50,6 +52,7 @@ button {
   background-color: var(--sw-background-for-text);
   font-family: 'DO Futuristic', sans-serif;
   color: var(--sw-yellow-text-color);
+  cursor: pointer;
 }
 .show-result {
   display: flex;
@@ -59,20 +62,21 @@ button {
 }
 
 .output {
-  color: rgb(255, 36, 36);
-  font-weight: bold;
+  color: rgb(253, 132, 132);
 }
 .sw-character,
 .sw-planet {
   background-color: var(--sw-background-for-text);
-  padding: 1em;
+  padding: 2em;
   margin: 0em 5em;
-  width: 20em;
+  width: 15em;
   height: min-content;
   text-align: start;
   border: var(--sw-border);
   border-radius: var(--sw-border-radius);
   font-size: larger;
+  overflow-x: hidden;
+  transition: var(--transition-elements);
 }
 
 .sw-character h1,
@@ -112,7 +116,7 @@ button {
   font-family: 'DO Futuristic', sans-serif;
   padding: 0.2em;
   margin: 0.4em;
-  background-color: rgb(211, 211, 211);
+  background-color: var(--sw-white-background);
   border-radius: 0.3em;
 }
 
@@ -131,13 +135,44 @@ button {
 }
 
 .search-result {
+  padding: 1em;
   display: flex;
   flex-direction: column;
-  width: 30em;
+  width: 25em;
   height: 18em;
   align-items: center;
   background-color: var(--sw-background-for-text);
   overflow-y: auto;
+  border: var(--sw-border);
+  border-radius: var(--sw-border-radius);
+  transition: var(--transition-elements);
+}
+
+.search-result ol {
+  list-style-type: none;
+}
+
+.search-result-li {
+  width: fit-content;
+  padding: .1em;
+  cursor: pointer;
+  background-color: rgb(27, 27, 27);
+  
+}
+
+.search-result-li:hover {
+  text-decoration: underline;
+}
+
+
+
+.clear-button {
+  position: relative;
+  align-self: flex-end;
+ 
+  padding: .5em;
+  border-radius: var(--sw-border-radius);
+  border: var(--sw-border);
 }
 
 @media (max-width: 880px) {

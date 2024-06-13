@@ -105,24 +105,28 @@ function showPlanet(planetData) {
 
 //Tar in en array och vilken funktion som ska användas på click
 function listSearches(searchResult, onClick) {
+  const lineBreak = document.createElement('br');
   if (searchResult != null) {
     const searchMessage = document.createElement('li');
     searchMessage.className = 'search-message-li';
-    searchMessage.innerText = `You searched for ${searchField.value}:`;
+    searchMessage.innerText = `You searched for "${searchField.value}":`;
     searchResultOutput.appendChild(searchMessage);
     const searchDataArray = searchResult;
     searchDataArray.forEach((object) => {
       const searchResult = document.createElement('li');
       const name = object.name;
       searchResult.classList = 'search-result-li';
-      searchResult.innerText = name;
+      searchResult.innerText = `- ${name}`;
       searchResult.addEventListener('click', () => onClick(object));
       searchResultOutput.appendChild(searchResult);
     });
+    searchResultOutput.appendChild(lineBreak);
   } else {
     const message = document.createElement('li');
-    message.innerText = `Your search for ${searchField.value} gave no result...`;
+    message.className = 'message-li';
+    message.innerText = `Your search for "${searchField.value}" gave no result...`;
     searchResultOutput.appendChild(message);
+    searchResultOutput.appendChild(lineBreak);
   }
 }
 
