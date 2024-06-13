@@ -1,42 +1,49 @@
-import { getNameFromUrl, searchCharacter, searchPlanet } from './services.js';
+import {
+  getNameFromUrl,
+  searchCharacter,
+  searchPlanet,
+} from './js/services.js';
 
 const resultTds = document.querySelectorAll('.show-result td');
+const characterSection = document.querySelector('.sw-character');
+const planetSection = document.querySelector('.sw-planet');
+const searchResultSection = document.querySelector('.search-result');
 const searchField = document.querySelector('.search-field');
 const searchButton = document.querySelector('.search-button');
 const clearButton = document.querySelector('.clear-button');
 const radioButtonCharacter = document.querySelector('.search-radio-person');
-const radioButtonPlanet = document.querySelector('.search-radio-planet');
-const searchResultOutput = document.querySelector('.search-result ol');
-searchButton.addEventListener('click', onClickSearch);
-clearButton.addEventListener('click', onClickClear);
 
-/* 
-Searcherna returnerar en array... ett element behöver väljas ut innnan den petas in i show-funktionerna
-Kanske via en lista av sök-resultat?
-*/
+const searchResultOutput = document.querySelector('.search-result ol');
+const title = document.querySelector('.title');
+searchButton.addEventListener('click', onClickSearch);
+clearButton.addEventListener('click', onClickClearHistory);
 
 async function onClickSearch() {
   const searchString = searchField.value;
-  clearSearchHistory();
   if (radioButtonCharacter.checked) {
     const resultsArray = await searchCharacter(searchString);
     console.log(resultsArray);
     listSearches(resultsArray, showCharacter);
-  } else if (radioButtonPlanet.checked) {
+  } else {
     const resultsArray = await searchPlanet(searchString);
     listSearches(resultsArray, showPlanet);
   }
+  showElement(searchResultSection);
 }
 
-function clearSearchHistory() {
+function onClickClearHistory() {
+  searchField.value = '';
   while (searchResultOutput.firstChild) {
     searchResultOutput.removeChild(searchResultOutput.firstChild);
   }
-}
-
-function onClickClear() {
-  searchField.value = '';
-  clearSearchHistory();
+  resultTds.forEach((td) => {
+    if (td.className.includes('output')) {
+      td.innerText = '';
+    }
+  });
+  hideElement(planetSection);
+  hideElement(characterSection);
+  hideElement(searchResultSection);
 }
 
 async function showCharacter(characterData) {
@@ -54,28 +61,21 @@ async function showCharacter(characterData) {
         ? await getNameFromUrl(character.starships[0])
         : 'None';
     resultTds.forEach((td) => {
-      switch (td.className) {
-        case 'character-name':
-          td.innerText = name;
-          break;
-        case 'character-gender':
-          td.innerText = gender;
-          break;
-        case 'character-specie':
-          td.innerText = specie;
-          break;
-        case 'character-homeworld':
-          td.innerText = homeworld;
-          break;
-        case 'character-starship':
-          td.innerText = starship;
-          break;
-        default:
-          break;
+      if (td.classList.contains('character-name')) {
+        td.innerText = name;
+      } else if (td.classList.contains('character-gender')) {
+        td.innerText = gender;
+      } else if (td.classList.contains('character-specie')) {
+        td.innerText = specie;
+      } else if (td.classList.contains('character-homeworld')) {
+        td.innerText = homeworld;
+      } else if (td.classList.contains('character-starship')) {
+        td.innerText = starship;
       }
     });
   } else {
   }
+  showElement(characterSection);
 }
 
 function showPlanet(planetData) {
@@ -87,43 +87,57 @@ function showPlanet(planetData) {
     const terrain = planet.terrain;
     const gravity = planet.gravity;
     resultTds.forEach((td) => {
-      switch (td.className) {
-        case 'planet-name':
-          td.innerText = name;
-          break;
-        case 'planet-population':
-          td.innerText = population;
-          break;
-        case 'planet-climate':
-          td.innerText = climate;
-          break;
-        case 'planet-terrain':
-          td.innerText = terrain;
-          break;
-        case 'planet-gravity':
-          td.innerText = gravity;
-          break;
-        default:
-          break;
+      if (td.classList.contains('planet-name')) {
+        td.innerText = name;
+      } else if (td.classList.contains('planet-population')) {
+        td.innerText = population;
+      } else if (td.classList.contains('planet-climate')) {
+        td.innerText = climate;
+      } else if (td.classList.contains('planet-terrain')) {
+        td.innerText = terrain;
+      } else if (td.classList.contains('planet-gravity')) {
+        td.innerText = gravity;
       }
     });
   }
+  showElement(planetSection);
 }
 
 //Tar in en array och vilken funktion som ska användas på click
 function listSearches(searchResult, onClick) {
   if (searchResult != null) {
+    const searchMessage = document.createElement('li');
+    searchMessage.className = 'search-message-li';
+    searchMessage.innerText = `You searched for ${searchField.value}:`;
+    searchResultOutput.appendChild(searchMessage);
     const searchDataArray = searchResult;
     searchDataArray.forEach((object) => {
       const searchResult = document.createElement('li');
       const name = object.name;
+      searchResult.classList = 'search-result-li';
       searchResult.innerText = name;
       searchResult.addEventListener('click', () => onClick(object));
       searchResultOutput.appendChild(searchResult);
     });
   } else {
     const message = document.createElement('li');
-    message.innerText = 'Nothing found';
+    message.innerText = `Your search for ${searchField.value} gave no result...`;
     searchResultOutput.appendChild(message);
   }
 }
+
+function slideTitle() {
+  title.classList.add('title-slide-in');
+}
+
+function showElement(element) {
+  element.classList.add('visible');
+  element.classList.remove('hidden');
+}
+
+function hideElement(element) {
+  element.classList.add('hidden');
+  element.classList.remove('visible');
+}
+
+window.onload = slideTitle();

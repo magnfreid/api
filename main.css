@@ -1,25 +1,155 @@
+:root {
+  --sw-yellow-text-color: rgb(224, 224, 224);
+  /* --sw-yellow-text-color:  */
+  --sw-background-for-text: rgba(43, 43, 43, 0.822);
+  --sw-border: 1px solid rgba(255, 255, 255, 0.555);
+  --sw-border-radius: 0.3em;
+}
+
+body {
+  background-image: url('./assets/images/background.jpeg');
+  color: var(--sw-yellow-text-color);
+  font-family: 'DO Futuristic', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 main {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   height: 100vh;
+  width: 100vw;
 }
 
-.sw-display {
-    margin: 1em;
-    border: 1px solid black;
-    height: 10em;
-    width: 6em;
+.hidden {
+  opacity: 0;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.title {
+  font-size: 5em;
+  color: rgb(243, 209, 16);
+  font-family: 'Star Wars', sans-serif;
+  position: absolute;
+  top: -100px;
+  opacity: 0;
+  transition: all 4s ease-in-out;
+}
+
+.title-slide-in {
+  top: 0;
+  opacity: 1;
+}
+
+button {
+  background-color: var(--sw-background-for-text);
+  font-family: 'DO Futuristic', sans-serif;
+  color: var(--sw-yellow-text-color);
+}
+.show-result {
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  margin-top: 10em;
+}
+
+.output {
+  color: rgb(255, 36, 36);
+  font-weight: bold;
+}
+.sw-character,
+.sw-planet {
+  background-color: var(--sw-background-for-text);
+  padding: 1em;
+  margin: 0em 5em;
+  width: 20em;
+  height: min-content;
+  text-align: start;
+  border: var(--sw-border);
+  border-radius: var(--sw-border-radius);
+  font-size: larger;
+}
+
+.sw-character h1,
+.sw-planet h1 {
+  text-decoration: underline;
+  font-size: 1.9em;
+  margin: 0.3em 0em;
 }
 
 .search-bar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  align-self: center;
+  margin-top: 7em;
+}
+
+.search-bar h2 {
+  margin: 0;
+  padding: 0.4em;
+  background-color: var(--sw-background-for-text);
+  border: var(--sw-border);
+  border-radius: 0.3em;
+}
+
+.search-bar button {
+  font-size: 2em;
+  padding: 0.2em;
+  margin: 0.5em;
+  border: var(--sw-border);
+  border-radius: var(--sw-border-radius);
+}
+
+.search-field {
+  font-size: 30px;
+  font-family: 'DO Futuristic', sans-serif;
+  padding: 0.2em;
+  margin: 0.4em;
+  background-color: rgb(211, 211, 211);
+  border-radius: 0.3em;
 }
 
 .radio-buttons {
   display: flex;
   justify-content: center;
+  align-items: center;
+  font-size: 1.7em;
+}
+
+.search-radio-person,
+.search-radio-planet {
+  width: 2em;
+  height: 2em;
+  margin: 1em;
+}
+
+.search-result {
+  display: flex;
+  flex-direction: column;
+  width: 30em;
+  height: 18em;
+  align-items: center;
+  background-color: var(--sw-background-for-text);
+  overflow-y: auto;
+}
+
+@media (max-width: 880px) {
+  .show-result {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 740px) {
+  .title {
+    font-size: 40px;
+  }
 }
