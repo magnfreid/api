@@ -1,3 +1,4 @@
+import { showElement, hideElement, slideTitle } from './js/animations.js';
 import {
   getNameFromUrl,
   searchCharacter,
@@ -12,9 +13,8 @@ const searchField = document.querySelector('.search-field');
 const searchButton = document.querySelector('.search-button');
 const clearButton = document.querySelector('.clear-button');
 const radioButtonCharacter = document.querySelector('.search-radio-person');
-
 const searchResultOutput = document.querySelector('.search-result ol');
-const title = document.querySelector('.title');
+
 searchButton.addEventListener('click', onClickSearch);
 clearButton.addEventListener('click', onClickClearHistory);
 
@@ -22,7 +22,6 @@ async function onClickSearch() {
   const searchString = searchField.value;
   if (radioButtonCharacter.checked) {
     const resultsArray = await searchCharacter(searchString);
-    console.log(resultsArray);
     listSearches(resultsArray, showCharacter);
   } else {
     const resultsArray = await searchPlanet(searchString);
@@ -32,6 +31,9 @@ async function onClickSearch() {
 }
 
 function onClickClearHistory() {
+  hideElement(planetSection);
+  hideElement(characterSection);
+  hideElement(searchResultSection);
   searchField.value = '';
   while (searchResultOutput.firstChild) {
     searchResultOutput.removeChild(searchResultOutput.firstChild);
@@ -41,9 +43,6 @@ function onClickClearHistory() {
       td.innerText = '';
     }
   });
-  hideElement(planetSection);
-  hideElement(characterSection);
-  hideElement(searchResultSection);
 }
 
 async function showCharacter(characterData) {
@@ -130,18 +129,4 @@ function listSearches(searchResult, onClick) {
   }
 }
 
-function slideTitle() {
-  title.classList.add('title-slide-in');
-}
-
-function showElement(element) {
-  element.classList.add('visible');
-  element.classList.remove('hidden');
-}
-
-function hideElement(element) {
-  element.classList.add('hidden');
-  element.classList.remove('visible');
-}
-
-window.onload = slideTitle();
+window.onload = slideTitle(title);

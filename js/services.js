@@ -36,5 +36,6 @@ export async function searchPlanet(searchString) {
 export async function getNameFromUrl(url) {
   const data = await fetchData(url);
   const name = data.name;
+  console.log(name);
   return name;
 }

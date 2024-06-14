@@ -2,3 +2,6 @@
 * Kontrollera texten i search result så den inte flyttar på sig 
 * Lägg till local storage inkl check mot local storage
 * Kolla animationerna i början, ska endast visas titeln
+* Fixa layouten för mindre skärmar
+* Hantera fel på response från apin
+* Loading animation
