@@ -39,12 +39,16 @@ export async function getNameFromUrl(url) {
   return name;
 }
 
-//lägger till i saveArray... kolla så inte lägger i samma fler ggr
-//Kolla arrayen innan fetchData()...
+
 export async function spawnObiWan() {
-  const url = `${starWarsBaseUrl}/people/10`;
-  const obiWan = await fetchData(url);
-  saveArray.push(obiWan);
-  console.log(saveArray);
-  return obiWan;
+  const found = saveArray.find(({ name }) => name === 'Obi-Wan Kenobi');
+  if (found) {
+    console.log(`${found} was found!`);
+    return found;
+  } else {
+    const url = `${starWarsBaseUrl}/people/10`;
+    const obiWan = await fetchData(url);
+    saveArray.push(obiWan);
+    return obiWan;
+  }
 }
