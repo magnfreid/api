@@ -1,4 +1,5 @@
 const starWarsBaseUrl = 'https://swapi.dev/api';
+let saveArray = [];
 
 async function fetchData(url) {
   const response = await fetch(url);
@@ -25,7 +26,6 @@ export async function searchCharacter(searchString) {
 export async function searchPlanet(searchString) {
   const url = `${starWarsBaseUrl}/planets/?search=${searchString}`;
   const data = await fetchData(url);
-  console.log(data);
   if (data.results.length > 0) {
     return data.results;
   } else {
@@ -36,6 +36,15 @@ export async function searchPlanet(searchString) {
 export async function getNameFromUrl(url) {
   const data = await fetchData(url);
   const name = data.name;
-  console.log(name);
   return name;
+}
+
+//lägger till i saveArray... kolla så inte lägger i samma fler ggr
+//Kolla arrayen innan fetchData()...
+export async function spawnObiWan() {
+  const url = `${starWarsBaseUrl}/people/10`;
+  const obiWan = await fetchData(url);
+  saveArray.push(obiWan);
+  console.log(saveArray);
+  return obiWan;
 }

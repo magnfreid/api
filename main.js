@@ -3,6 +3,7 @@ import {
   getNameFromUrl,
   searchCharacter,
   searchPlanet,
+  spawnObiWan,
 } from './js/services.js';
 
 const resultTds = document.querySelectorAll('.show-result td');
@@ -15,8 +16,10 @@ const clearButton = document.querySelector('.clear-button');
 const radioButtonCharacter = document.querySelector('.search-radio-person');
 const searchResultOutput = document.querySelector('.search-result ol');
 const title = document.querySelector('.title');
+const obiButton = document.querySelector('.obi-button');
 searchButton.addEventListener('click', onClickSearch);
 clearButton.addEventListener('click', onClickClearHistory);
+obiButton.addEventListener("click", onClickObiButton)
 
 async function onClickSearch() {
   const searchString = searchField.value;
@@ -43,6 +46,11 @@ function onClickClearHistory() {
       td.innerText = '';
     }
   });
+}
+
+async function onClickObiButton() {
+const obiWan = await spawnObiWan();
+showCharacter(obiWan);
 }
 
 async function showCharacter(characterData) {
