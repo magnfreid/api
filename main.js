@@ -14,7 +14,7 @@ const searchButton = document.querySelector('.search-button');
 const clearButton = document.querySelector('.clear-button');
 const radioButtonCharacter = document.querySelector('.search-radio-person');
 const searchResultOutput = document.querySelector('.search-result ol');
-
+const title = document.querySelector('.title');
 searchButton.addEventListener('click', onClickSearch);
 clearButton.addEventListener('click', onClickClearHistory);
 
