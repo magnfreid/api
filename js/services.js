@@ -1,10 +1,10 @@
 const starWarsBaseUrl = 'https://swapi.dev/api';
-let saveArray = [];
+let saveObiWan = [];
 
 async function fetchData(url) {
   const response = await fetch(url);
-  const data = await response.json();
   if (response.ok) {
+    const data = await response.json();
     return data;
   } else {
     throw new Error(`Error: ${response.statusText}`);
@@ -41,14 +41,14 @@ export async function getNameFromUrl(url) {
 
 
 export async function spawnObiWan() {
-  const found = saveArray.find(({ name }) => name === 'Obi-Wan Kenobi');
+  const found = saveObiWan.find(({ name }) => name === 'Obi-Wan Kenobi');
   if (found) {
     console.log(`${found} was found!`);
     return found;
   } else {
     const url = `${starWarsBaseUrl}/people/10`;
     const obiWan = await fetchData(url);
-    saveArray.push(obiWan);
+    saveObiWan.push(obiWan);
     return obiWan;
   }
 }

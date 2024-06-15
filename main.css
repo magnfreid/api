@@ -171,6 +171,7 @@ button {
 .search-result-li {
   width: fit-content;
   padding: 0.1em;
+  margin: 0.2em;
   cursor: pointer;
   background-color: rgb(27, 27, 27);
 }
@@ -187,16 +188,4 @@ button {
   border: var(--sw-border);
 }
 
-@media (max-width: 880px) {
-  .show-result {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-}
 
-@media (max-width: 740px) {
-  .title {
-    font-size: 40px;
-  }
-}

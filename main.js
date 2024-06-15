@@ -19,7 +19,10 @@ const title = document.querySelector('.title');
 const obiButton = document.querySelector('.obi-button');
 searchButton.addEventListener('click', onClickSearch);
 clearButton.addEventListener('click', onClickClearHistory);
-obiButton.addEventListener("click", onClickObiButton)
+obiButton.addEventListener('click', onClickObiButton);
+
+let cachedSpecieHomeworldStarship =
+  JSON.parse(localStorage.getItem('cache')) || {};
 
 async function onClickSearch() {
   const searchString = searchField.value;
@@ -49,8 +52,25 @@ function onClickClearHistory() {
 }
 
 async function onClickObiButton() {
-const obiWan = await spawnObiWan();
-showCharacter(obiWan);
+  const obiWan = await spawnObiWan();
+  showCharacter(obiWan);
+}
+
+async function checkCache(url) {
+  const cachedObject = cachedSpecieHomeworldStarship[url];
+  if (cachedObject) {
+    console.log(`Cached: ${cachedObject}`);
+    return cachedObject;
+  } else {
+    const object = await getNameFromUrl(url);
+    cachedSpecieHomeworldStarship[url] = object;
+    console.log(object);
+    localStorage.setItem(
+      'cache',
+      JSON.stringify(cachedSpecieHomeworldStarship)
+    );
+    return object;
+  }
 }
 
 async function showCharacter(characterData) {
@@ -60,12 +80,14 @@ async function showCharacter(characterData) {
     const gender = character.gender;
     const specie =
       character.species.length > 0
-        ? await getNameFromUrl(character.species[0])
+        ? await checkCache(character.species[0])
         : 'Unknown';
-    const homeworld = await getNameFromUrl(character.homeworld);
+    const homeworld = character.homeworld
+      ? await checkCache(character.homeworld)
+      : 'Unknown';
     const starship =
       character.starships.length > 0
-        ? await getNameFromUrl(character.starships[0])
+        ? await checkCache(character.starships[0])
         : 'None';
     resultTds.forEach((td) => {
       if (td.classList.contains('character-name')) {
@@ -80,9 +102,10 @@ async function showCharacter(characterData) {
         td.innerText = starship;
       }
     });
+    showElement(characterSection);
   } else {
+    //Lägg till nåt här
   }
-  showElement(characterSection);
 }
 
 function showPlanet(planetData) {
@@ -106,8 +129,10 @@ function showPlanet(planetData) {
         td.innerText = gravity;
       }
     });
+    showElement(planetSection);
+  } else {
+    //Add somethign here...
   }
-  showElement(planetSection);
 }
 
 //Tar in en array och vilken funktion som ska användas på click
